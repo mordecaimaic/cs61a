@@ -177,7 +177,12 @@ def div_by_primes_under(n):
     以下的语句是最核心的一条：
     checker = (lambda f, i: lambda x: f(x) or x % i == 0)(checker, i)
     
-    为什么这样子就可以实现decorate的功能呢，我们可以从最开始的地方
+    为什么这样子就可以实现decorate的功能呢，我们可以从最开始的地方开始入手。
+    1.最开始的时候check为false，i为2，此时check(2)为false，说明2是一个质数。
+    2.此时外层的lambda函数对checker进行重新修饰，得出一个新的函数。此时新的checker(x) = False or x % 2
+    3.当i为3的时候checker(3)依旧为False，所以要使用外层lambda对checker函数进行重新修饰，则此时的checker(x) = False % or x % 2 == 0  or x % 3 == 0
+    4.当i为4的时候，checker(4)为True，此时由于 4 % 2 == 0是一件真的事情，因此checker不需要被修饰
+    5.so on and so forth...
     """
     checker = lambda x: False
     i = 2
