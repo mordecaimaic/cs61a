@@ -101,7 +101,7 @@ def hailstone(n,):
     "*** YOUR CODE HERE ***"
 
     def hailstone_helper(n ,step):
-        # print(n)
+        print(n)
         if n == 1:
             return step
         elif n % 2 == 0:
@@ -110,7 +110,8 @@ def hailstone(n,):
             return hailstone_helper(3*n + 1, step + 1)
     return hailstone_helper(n, 1)
 
-def test(n):
+def hail_gothrough(n):
+    """go through and run hail stone from 1 to n"""
     max, index, i = 0, 9, 1
     while i <= n:
         steps = hailstone(i)
@@ -134,42 +135,30 @@ def merge(n1, n2):
     """
     "*** YOUR CODE HERE ***"
     # print(n1, n2)
+    if n1 == 0:
+        return n2
+    elif n2 == 0:
+        return n1
 
     def merge_helper(n1, n2 , k):
         all_but_last_1, last_1 = n1 // 10, n1 % 10
         all_but_last_2, last_2 = n2 // 10, n2 % 10
-        if n1 == 0 and n2 != 0:
-            return single_merge(n2, k)
-        elif n1 != 0 and n2 == 0:
-            return single_merge(n1, k)
-        elif n1 == 0 and n2 == 0:
-            return 0      
-        if last_1 == 0:
-            return merge_helper(all_but_last_1, n2, k)
-        elif last_2 == 0:
-            return merge_helper(n1, all_but_last_2, k)
+        if n1 == 0:
+            return n2 * pow(10, k)
+        elif n2 == 0:
+            return n1 * pow(10, k)    
         if last_1 <= last_2 and last_1 > 0:
             min = last_1
-            return merge_helper(all_but_last_1,  n2, k+1) + min*pow(10,k)
+            return merge_helper(all_but_last_1,  n2, k + 1) + min*pow(10,k)
         elif last_1 > last_2 and last_2 > 0:
             min = last_2
-            return merge_helper(n1,  all_but_last_2, k +  1) + min*pow(10,k)
-
-    def single_merge(n, k):
-        if(n == 0):
-            return 0
-        all_but_last, last = n // 10, n % 10
-        return single_merge(all_but_last, k+1) + last*pow(10,k)
+            return merge_helper(n1,  all_but_last_2, k + 1) + min*pow(10,k)
     
-
     return merge_helper(n1, n2 , 0)
-    
 
-
-
-    
 
 def merge_copilot(n1, n2):
+    
     if n1 == 0:
         return n2
     elif n2 == 0:
@@ -188,9 +177,9 @@ def merge_new(n1, n2):
         return n2
     elif n2 == 0:
         return n1
-    else:
-        last_n1, last_n2 = n1 % 10, n2 % 10
-    if last_n1 <= last_n2:
-        return merge_new(n1 // 10, n2)*10 + last_n1
-    else:
-        return merge_new(n1, n2)*10 + last_n2
+    last_digit_n1, last_digit_n2 = n1 % 10, n2 % 10
+    if last_digit_n1 <= last_digit_n2:
+        return merge_new(n1 // 10, n2) * 10 + last_digit_n1
+    elif last_digit_n1 > last_digit_n2:
+        return merge(n1, n2 // 10) * 10 + last_digit_n2
+
