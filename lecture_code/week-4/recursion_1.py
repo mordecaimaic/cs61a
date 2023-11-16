@@ -71,11 +71,13 @@ def count_partition(m, n):
     >>> count_partition(6 , 4)
     9
     """
-    if m == 1 or m == 0:
+    if m == 0:
         return 1
-    elif n <= 0 or m < 0:
+    elif n == 0:
         return 0
-    elif m > 1:
+    elif m < 0:
+        return 0
+    else:
         return  count_partition(m - n, n) + count_partition(m, n - 1)
 
 def fibo(n):

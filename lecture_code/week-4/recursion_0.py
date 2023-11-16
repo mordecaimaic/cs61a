@@ -70,16 +70,19 @@ def is_prime(n):
     elif n % 2 == 0 and n != 2:
         return False
     else:
-        return is_prime_rec(n, n-1)
+        return is_prime_rec_helper(n, n-1)
 
 
-def is_prime_rec(n, i):
+def is_prime_rec_helper(n, i):
+    """
+    is_prime_rec_helper是一个封装好的helper函数，使用递归来检查代是否一个素数
+    """
     if i == 1:
         return True
     elif n % i == 0:
         return False
     else:
-        return is_prime_rec(n, i-1)
+        return is_prime_rec_helper(n, i-1)
 
 def hailstone(n,):
     """Print out the hailstone sequence starting at n, and return the number of elements in the sequence.
@@ -101,6 +104,9 @@ def hailstone(n,):
     "*** YOUR CODE HERE ***"
 
     def hailstone_helper(n ,step):
+        """
+        helper函数可以调用中传递额外的参数，可以将参数封装在函数里面
+        """
         print(n)
         if n == 1:
             return step

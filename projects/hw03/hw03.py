@@ -25,7 +25,12 @@ def num_eights(n):
     True
     """
     "*** YOUR CODE HERE ***"
-
+    if n == 0:
+        return 0
+    elif n % 10 == 8:
+        return num_eights(n // 10) + 1
+    else:
+        return num_eights(n // 10)
 
 def digit_distance(n):
     """Determines the digit distance of n.
@@ -47,6 +52,18 @@ def digit_distance(n):
     True
     """
     "*** YOUR CODE HERE ***"
+    """
+    --计算1个数的digit_distance--
+    在写递归的时候，不要把函数具像化
+    最好的方法：就是先把函数功能进行抽象化
+    先完成else部分的内容
+    再完成base case判断的内容
+    ————John Berkeley cs61a
+    """
+    if n < 10:
+        return 0
+    else:
+        return abs(n % 10 - n // 10 % 10) + digit_distance(n // 10)
 
 
 def interleaved_sum(n, odd_term, even_term):
@@ -69,8 +86,21 @@ def interleaved_sum(n, odd_term, even_term):
     True
     """
     "*** YOUR CODE HERE ***"
+    """难点在于，如何不使用取余符号进行递归
+    1.按照cs61a的课程说明，我们需要定义个helper才可以
+    2.并且可以每次都调用同一个位置的函数，但是那个函数可以被调换位置
+    3.How can you keep track of which function to use? 
+    Is it possible to swap the two functions in the helper function's parameters during each recursive call?
+    """
+    def iterative_helper(f, g, k = 1):
+        if k > n:
+            return 0
+        else:
+            return iterative_helper(g, f, k + 1) + f(k)
+    return iterative_helper(odd_term, even_term)
+    
 
-
+#------------------------------------------coin change recursision-------------------------------------------------------#
 def next_larger_coin(coin):
     """Returns the next larger coin in order.
     >>> next_larger_coin(1)
@@ -105,6 +135,28 @@ def next_smaller_coin(coin):
     elif coin == 5:
         return 1
 
+def count_coins_helper(n, m):
+    """
+    n < m
+    count_conins_helper(5, 5) = 5
+    count_conins_helper(5, 5) = 1 + 1 + 1 + 1 + 1
+    >>> count_conins_helper(5, 5)
+    2
+    >>> count_conins_helper(10, 10)
+    4
+    """
+    """
+    重新定义一个helper函数，在count_coins里面调用这个count_coins函数即可
+    和老师上课讲的最后一个count_partition的例子完全一模一样
+    """
+    if m == 1:
+        return 1
+    elif n < 0:
+        return 0
+    else:
+        return count_coins_helper(n, next_smaller_coin(m)) + count_coins_helper(n - m, m)
+
+
 def count_coins(total):
     """Return the number of ways to make change using coins of value of 1, 5, 10, 25.
     >>> count_coins(15)
@@ -123,7 +175,15 @@ def count_coins(total):
     True
     """
     "*** YOUR CODE HERE ***"
-
+    if total >= 25:
+        return count_coins_helper(total, 25)
+    elif total >= 10:
+        return count_coins_helper(total, 10)
+    elif total >= 5:
+        return count_coins_helper(total, 5)
+    else:
+        return count_coins_helper(total, 1)
+#------------------------------------------------end----------------------------------------------------------------#
 
 def print_move(origin, destination):
     """Print instructions to move a disk."""
