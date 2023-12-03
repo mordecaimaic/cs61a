@@ -132,7 +132,9 @@ def merge(lst1, lst2):
         return lst2
     elif not lst2:
         return lst1
-    elif lst1[0] <= lst2[0]: #
+    # 每次2个序列，只比较比较第一个元素
+    # 当比较完之后，将除了一个元素以外的序列进行切片，lst[1:]，直到序列被切成空
+    elif lst1[0] <= lst2[0]:
         return [lst1[0]] + merge(lst1[1:], lst2)
     elif lst1[0] > lst2[0]:
         return [lst2[0]] + merge(lst1, lst2[1:])
@@ -159,6 +161,10 @@ def summation(n, term):
     """
     assert n >= 1
     "*** YOUR CODE HERE ***"
+    if n == 1:
+        return term(n)
+    else:
+        return summation(n - 1, term) + term(n)
 
 
 def count_palindromes(L):
@@ -168,5 +174,9 @@ def count_palindromes(L):
     >>> count_palindromes(("Acme", "Madam", "Pivot", "Pip"))
     2
     """
-    return ______
+    count = 0
+    for name in L:
+        if name[::-1].lower() == name.lower():
+            count +=1
+    return count
 
